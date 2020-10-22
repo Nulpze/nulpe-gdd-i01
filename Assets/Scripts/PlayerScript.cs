@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -12,7 +8,7 @@ public class PlayerScript : MonoBehaviour
   /// </summary>
   public Vector2 speed = new Vector2(50, 50);
   public bool flipOnShoot = false;
-  public Vector3 defaultScale = new Vector3(0, 0, 0);
+  private Vector3 defaultScale = new Vector3(0, 0, 0);
   private Vector3 flipScale = new Vector3(0, 0, 0);
   private float flipTimer = 0f;
 
@@ -22,6 +18,7 @@ public class PlayerScript : MonoBehaviour
 
   private void Awake()
   {
+    defaultScale = transform.localScale;
     flipScale = defaultScale;
     flipScale.x *= -1;
   }
@@ -38,6 +35,15 @@ public class PlayerScript : MonoBehaviour
       speed.x * inputX,
       speed.y * inputY
     );
+
+    if (inputX < 0)
+    {
+      transform.localScale = flipScale;
+    }
+    else
+    {
+      transform.localScale = defaultScale;
+    }
 
     if (flipTimer > 0)
     {
@@ -80,5 +86,12 @@ public class PlayerScript : MonoBehaviour
 
       // 6 - Move the game object
       rigidbodyComponent.velocity = movement;
+  }
+
+  void OnDestroy()
+  {
+    // Game Over.
+    var gameOver = FindObjectOfType<GameOverScript>();
+    gameOver.ShowButtons();
   }
 }

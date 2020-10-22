@@ -23,12 +23,13 @@ public class ScrollingScript : MonoBehaviour
   public bool isLinkedToCamera = false;
 
   public bool isLooping = false;
+  public bool isLoopingPlatforms = false;
   
   private List<SpriteRenderer> backgroundPart;
 
   private void Start()
   {
-    if (isLooping)
+    if (isLooping || isLoopingPlatforms)
     {
       backgroundPart = new List<SpriteRenderer>();
 
@@ -69,6 +70,26 @@ public class ScrollingScript : MonoBehaviour
     if (isLinkedToCamera)
     {
       Camera.main.transform.Translate(movement);
+    }
+
+    if (isLoopingPlatforms)
+    {
+      SpriteRenderer firstChild = backgroundPart.FirstOrDefault();
+      if (firstChild.transform.position.x < Camera.main.transform.position.x)
+      {
+        if (firstChild.IsVisibleFrom(Camera.main) == false)
+        {
+          Debug.Log("Spawn new platform now");
+          
+          firstChild.transform.position = new Vector3(
+            Camera.main.transform.position.x + Camera.main.orthographicSize * 2 + firstChild.bounds.size.x,
+            firstChild.transform.position.y,
+            0
+          );
+          backgroundPart.Remove(firstChild);
+          backgroundPart.Add(firstChild);
+        }
+      }
     }
 
     if (isLooping)

@@ -43,6 +43,6 @@ public class GameOverScript : MonoBehaviour
   public void RestartGame()
   {
     // Reload the level
-    SceneManager.LoadScene("Game");
+    SceneManager.LoadScene("Stage1");
   }
 }
