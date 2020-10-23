@@ -20,6 +20,6 @@ public class ShotScript : MonoBehaviour
   void Start()
   {
     // 2 - Limited time to live to avoid any leak
-    Destroy(gameObject, 20f); // 20sec
+    Destroy(gameObject, 5f);
   }
 }

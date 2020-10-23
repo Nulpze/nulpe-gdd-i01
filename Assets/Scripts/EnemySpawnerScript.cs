@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class EnemySpawnerScript : MonoBehaviour
 {
-  public ScoreScript scoreScript;
   public GameObject prefab;
   public float minSpawnTime = 2f;
   public float maxSpawnTime = 4f;
@@ -12,24 +11,29 @@ public class EnemySpawnerScript : MonoBehaviour
 
   private float timer = 0.0f;
   private float nextTime;
+  private bool active = true;
+  private int spawnRate = 1;
 
   void Start()
   {
     nextTime = Random.Range(minSpawnTime, maxSpawnTime);
+    SpawnEnemy(-3f);
+    SpawnEnemy(-3f);
+    SpawnEnemy(-3f);
   }
 
   // Update is called once per frame
   void Update()
   {
+    if (!active)
+    {
+      return;
+    }
     timer += Time.deltaTime;
 
     if (timer > nextTime)
     {
-      if (scoreScript.GetScore() > doubleSpawnThreshold)
-      {
-        SpawnEnemy();
-        SpawnEnemy();
-      } else
+      for (int i = 0; i < spawnRate; i++)
       {
         SpawnEnemy();
       }
@@ -38,16 +42,30 @@ public class EnemySpawnerScript : MonoBehaviour
     }
   }
 
-  private void SpawnEnemy()
+  public void IncreaseSpawnRate()
+  {
+    spawnRate++;
+  }
+
+  public int GetSpawnRate()
+  {
+    return spawnRate;
+  }
+
+  public void Stop()
+  {
+    this.active = false;
+  }
+
+  private void SpawnEnemy(float rndX = 5.0f)
   {
     var enemy = Instantiate(prefab, transform);
     var pos = new Vector3(
-      Camera.main.transform.position.x + Camera.main.orthographicSize * 2 + 2,
-      -50 + Random.Range(-7.0f, 12.0f),
+      Camera.main.transform.position.x + Camera.main.orthographicSize * 2 + Random.Range(0f, rndX),
+      -50 + Random.Range(-12.0f, 12.0f),
       0
     );
     enemy.transform.position = pos;
-    Debug.Log($"Object created x: {pos.x} y: {pos.y}");
     Destroy(enemy, 20f);
   }
 }

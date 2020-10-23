@@ -78,9 +78,7 @@ public class ScrollingScript : MonoBehaviour
       if (firstChild.transform.position.x < Camera.main.transform.position.x)
       {
         if (firstChild.IsVisibleFrom(Camera.main) == false)
-        {
-          Debug.Log("Spawn new platform now");
-          
+        {          
           firstChild.transform.position = new Vector3(
             Camera.main.transform.position.x + Camera.main.orthographicSize * 2 + firstChild.bounds.size.x,
             firstChild.transform.position.y,

@@ -7,6 +7,9 @@ using UnityEngine.UI;
 /// </summary>
 public class GameOverScript : MonoBehaviour
 {
+  public ScoreScript scoreScript;
+  public EnemySpawnerScript enemySpawnerScript;
+
   private Button[] buttons;
 
   void Awake()
@@ -32,6 +35,8 @@ public class GameOverScript : MonoBehaviour
     {
       b.gameObject.SetActive(true);
     }
+    scoreScript.Stop();
+    enemySpawnerScript.Stop();
   }
 
   public void ExitToMenu()

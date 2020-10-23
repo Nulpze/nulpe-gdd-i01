@@ -287,15 +287,15 @@ RectTransform:
   m_GameObject: {fileID: 57788409}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 162647222}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 24}
+  m_AnchoredPosition: {x: 0, y: -5}
+  m_SizeDelta: {x: 200, y: 140}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &57788411
 MonoBehaviour:
@@ -318,12 +318,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 42
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 4
+    m_MinSize: 0
+    m_MaxSize: 200
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -428,6 +428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5cfd6d1de3ef5048ade5ca2da2845a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreScript: {fileID: 1172275161}
+  enemySpawnerScript: {fileID: 1172275162}
 --- !u!1 &175845281
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +551,7 @@ Transform:
   - {fileID: 519420032}
   - {fileID: 1822091941}
   m_Father: {fileID: 1787665831}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &484205368
 GameObject:
@@ -1369,6 +1371,7 @@ GameObject:
   - component: {fileID: 1172275160}
   - component: {fileID: 1172275159}
   - component: {fileID: 1172275161}
+  - component: {fileID: 1172275162}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1419,6 +1422,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiText: {fileID: 57788409}
+  enemySpawnerScript: {fileID: 1172275162}
+--- !u!114 &1172275162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172275158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2078ec69fb9d249ba41bfe27ec13a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3888133485991560823, guid: 19004db0ad0bd254d8c1f44505b84b15, type: 3}
+  minSpawnTime: 1
+  maxSpawnTime: 2
+  distFromCamera: 10
+  doubleSpawnThreshold: 50
 --- !u!4 &1175840568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2603150292008838110, guid: 2b9349f8705080e42aceca130d69bcc8,
@@ -2033,7 +2054,6 @@ Transform:
   - {fileID: 24613995}
   - {fileID: 714942740}
   - {fileID: 2073540536}
-  - {fileID: 2016836187}
   - {fileID: 435636768}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2140,55 +2160,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6987509039602954025}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2016836186
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2016836187}
-  - component: {fileID: 2016836188}
-  m_Layer: 0
-  m_Name: Enemies
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2016836187
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016836186}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1787665831}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2016836188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016836186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d2078ec69fb9d249ba41bfe27ec13a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreScript: {fileID: 1172275161}
-  prefab: {fileID: 3888133485991560823, guid: 19004db0ad0bd254d8c1f44505b84b15, type: 3}
-  minSpawnTime: 0.5
-  maxSpawnTime: 1
-  distFromCamera: 10
-  doubleSpawnThreshold: 50
 --- !u!4 &2058003494 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2641868548068309985, guid: d44a37fdeb373534db9a47dfc2471a8d,
@@ -2461,6 +2432,11 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 2058201269}
+    - target: {fileID: 3226885866499968208, guid: 48b0ec31b681a68458a143c6f9886bc6,
+        type: 3}
+      propertyPath: isInvincible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3226885866499968221, guid: 48b0ec31b681a68458a143c6f9886bc6,
         type: 3}
       propertyPath: m_SortingLayerID
