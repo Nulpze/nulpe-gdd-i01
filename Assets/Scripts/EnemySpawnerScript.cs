@@ -17,9 +17,9 @@ public class EnemySpawnerScript : MonoBehaviour
   void Start()
   {
     nextTime = Random.Range(minSpawnTime, maxSpawnTime);
+    /*SpawnEnemy(-3f);
     SpawnEnemy(-3f);
-    SpawnEnemy(-3f);
-    SpawnEnemy(-3f);
+    SpawnEnemy(-3f);*/
   }
 
   // Update is called once per frame
@@ -62,7 +62,7 @@ public class EnemySpawnerScript : MonoBehaviour
     var enemy = Instantiate(prefab, transform);
     var pos = new Vector3(
       Camera.main.transform.position.x + Camera.main.orthographicSize * 2 + Random.Range(0f, rndX),
-      -50 + Random.Range(-12.0f, 12.0f),
+      -50 + Random.Range(-10.0f, 10.0f),
       0
     );
     enemy.transform.position = pos;

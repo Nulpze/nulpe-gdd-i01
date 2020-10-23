@@ -10,6 +10,7 @@ public class EnemyScript : MonoBehaviour
   private WeaponScript[] weapons;
   private Collider2D coliderComponent;
   private SpriteRenderer rendererComponent;
+  private HealthScript healthScript;
 
   void Awake()
   {
@@ -22,6 +23,7 @@ public class EnemyScript : MonoBehaviour
     coliderComponent = GetComponent<Collider2D>();
 
     rendererComponent = GetComponent<SpriteRenderer>();
+    healthScript = GetComponent<HealthScript>();
   }
 
   // 1 - Disable everything
@@ -67,6 +69,18 @@ public class EnemyScript : MonoBehaviour
       {
         Destroy(gameObject);
       }
+    }
+  }
+
+
+  void OnCollisionEnter2D(Collision2D collision)
+  {
+    // Collision with enemy
+    ExplodingRocketScript explosionScript = collision.gameObject.GetComponent<ExplodingRocketScript>();
+    if (explosionScript != null)
+    {
+      Debug.Log("EXPLODED!!");
+      healthScript.Damage(100);
     }
   }
 

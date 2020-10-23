@@ -28,15 +28,10 @@ public class SpecialEffectsHelper : MonoBehaviour
   /// Create an explosion at the given location
   /// </summary>
   /// <param name="position"></param>
-  public void Explosion(Vector3 position)
+  public void Explosion(Vector3 position, bool big = false)
   {
-    // Smoke on the water
-    instantiate(smokeEffect, position);
-
-    // Tu tu tu, tu tu tudu
-
-    // Fire in the sky
-    instantiate(fireEffect, position);
+    instantiate(smokeEffect, position, big);
+    instantiate(fireEffect, position, big);
   }
 
   /// <summary>
@@ -44,13 +39,23 @@ public class SpecialEffectsHelper : MonoBehaviour
   /// </summary>
   /// <param name="prefab"></param>
   /// <returns></returns>
-  private ParticleSystem instantiate(ParticleSystem prefab, Vector3 position)
+  private ParticleSystem instantiate(ParticleSystem prefab, Vector3 position, bool big = false)
   {
+
     ParticleSystem newParticleSystem = Instantiate(
       prefab,
       position,
       Quaternion.identity
     ) as ParticleSystem;
+    var scale = newParticleSystem.transform.localScale;
+    if (big)
+    {
+      newParticleSystem.transform.localScale = new Vector3(
+        scale.x * 4,
+        scale.y * 4,
+        1
+      );
+    }
 
     // Make sure it will be destroyed
     Destroy(

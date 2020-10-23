@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,17 +12,30 @@ public class PlayerScript : MonoBehaviour
   public bool flipOnShoot = false;
   private Vector3 defaultScale = new Vector3(0, 0, 0);
   private Vector3 flipScale = new Vector3(0, 0, 0);
-  private float flipTimer = 0f;
 
   // 2 - Store the movement and the component
   private Vector2 movement;
   private Rigidbody2D rigidbodyComponent;
+  private WeaponScript normalWeapon;
+  private WeaponScript specialWeapon;
 
   private void Awake()
   {
     defaultScale = transform.localScale;
     flipScale = defaultScale;
     flipScale.x *= -1;
+    WeaponScript[] weapons = GetComponents<WeaponScript>();
+    for (int i = 0; i < weapons.Length; i++)
+    {
+      if (weapons[i]?.id == 0)
+      {
+        normalWeapon = weapons[i];
+      }
+      if (weapons[i]?.id == 1)
+      {
+        specialWeapon = weapons[i];
+      }
+    }
   }
 
   // Update is called once per frame
@@ -46,35 +60,14 @@ public class PlayerScript : MonoBehaviour
       transform.localScale = defaultScale;
     }
 
-    if (flipTimer > 0)
+    if (Input.GetButton("Fire1"))
     {
-      flipTimer -= Time.deltaTime;
+      FireNormalWeapon();
     }
 
-    // 5 - Shooting
-    bool shoot = Input.GetButton( "Fire1");
-    shoot |= Input.GetButton("Fire2");
-    // Careful: For Mac users, ctrl + arrow is a bad idea
-
-    if (shoot)
+    if (Input.GetButton("Fire2"))
     {
-      WeaponScript weapon = GetComponent<WeaponScript>();
-      if (weapon != null)
-      {
-        // Flip the image on the x axis
-        if (flipOnShoot)
-        {
-          flipTimer = 0.5f;
-          transform.localScale = flipScale;
-        }
-        // false because the player is not an enemy
-        weapon.Attack(false);
-      }
-    }
-    if (flipTimer < 0)
-    {
-      transform.localScale = defaultScale;
-      flipTimer = 0;
+      FireSpecialWeapon();
     }
 
     var dist = (transform.position - Camera.main.transform.position).z;
@@ -116,8 +109,6 @@ public class PlayerScript : MonoBehaviour
 
   void OnCollisionEnter2D(Collision2D collision)
   {
-    bool damagePlayer = false;
-
     // Collision with enemy
     EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
     if (enemy != null)
@@ -126,21 +117,31 @@ public class PlayerScript : MonoBehaviour
       HealthScript enemyHealth = enemy.GetComponent<HealthScript>();
       if (enemyHealth != null) enemyHealth.Damage(enemyHealth.hp);
 
-      damagePlayer = true;
-    }
-
-    // Damage the player
-    if (damagePlayer)
-    {
       HealthScript playerHealth = this.GetComponent<HealthScript>();
       if (playerHealth != null) playerHealth.Damage(1);
     }
   }
 
-    void OnDestroy()
+  void OnDestroy()
   {
     // Game Over.
     var gameOver = FindObjectOfType<GameOverScript>();
     gameOver.ShowButtons();
+  }
+
+  private void FireNormalWeapon()
+  {
+    if (normalWeapon)
+    {
+      normalWeapon.Attack(false);
+    }
+  }
+
+  private void FireSpecialWeapon()
+  {
+    if (specialWeapon)
+    {
+      specialWeapon.Attack(false);
+    }
   }
 }
