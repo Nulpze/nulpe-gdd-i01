@@ -128,7 +128,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &3226885866499968214
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -169,7 +169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: {x: 10, y: 10}
   flipOnShoot: 0
-  defaultScale: {x: 2.5, y: 2.5, z: 0}
 --- !u!114 &3226885866499968208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,8 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584851cf8cf9ce145bd759478d48ebec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
+  hp: 3
   isEnemy: 0
+  healthBar: {fileID: 0}
 --- !u!114 &3226885866499968211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,3 +215,4 @@ MonoBehaviour:
   direction: {x: 1, y: 0}
   isLinkedToCamera: 1
   isLooping: 0
+  isLoopingPlatforms: 0

@@ -14,6 +14,35 @@ public class HealthScript : MonoBehaviour
   /// Enemy or player?
   /// </summary>
   public bool isEnemy = true;
+  public bool isInvincible = false;
+
+  public Canvas healthBar;
+  private HealthBarScript healthBarScript;
+  private BlinkingScript blinkingScript;
+  private float invincibleDurationAfterDamage = 0f;
+
+  public void Awake()
+  {
+    if (!isEnemy)
+    {
+      healthBarScript = healthBar.GetComponent<HealthBarScript>();
+      healthBarScript.SetHealth(hp);
+    }
+    blinkingScript = GetComponent<BlinkingScript>();
+  }
+
+  public void Update()
+  {
+    if (invincibleDurationAfterDamage > 0)
+    {
+      invincibleDurationAfterDamage -= Time.deltaTime;
+      isInvincible = true;
+    }
+    if (invincibleDurationAfterDamage < 0 && isInvincible)
+    {
+      isInvincible = false;
+    }
+  }
 
   /// <summary>
   /// Inflicts damage and check if the object should be destroyed
@@ -21,10 +50,25 @@ public class HealthScript : MonoBehaviour
   /// <param name="damageCount"></param>
   public void Damage(int damageCount)
   {
-    hp -= damageCount;
+    if (!isInvincible)
+    {
+      hp -= damageCount;
+
+      if (!isEnemy)
+      {
+        healthBarScript.TakeDamage();
+        invincibleDurationAfterDamage = 1f;
+      }
+
+      if (blinkingScript)
+      {
+        blinkingScript.Blink(invincibleDurationAfterDamage);
+      }
+    }
 
     if (hp <= 0)
     {
+      SpecialEffectsHelper.Instance.Explosion(transform.position);
       // Dead!
       Destroy(gameObject);
     }
