@@ -65,7 +65,7 @@ public class PlayerScript : MonoBehaviour
       FireNormalWeapon();
     }
 
-    if (Input.GetButton("Fire2"))
+    if (Input.GetButtonDown("Fire2"))
     {
       FireSpecialWeapon();
     }

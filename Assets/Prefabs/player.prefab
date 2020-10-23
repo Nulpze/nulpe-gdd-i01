@@ -234,6 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotPrefab: {fileID: 2831911734793310390, guid: a3d45498d684a904f9663abdcd973fe0,
     type: 3}
-  shootingRate: 5
+  shootingRate: 2
   initWithCooldown: 1
   id: 1
