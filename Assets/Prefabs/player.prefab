@@ -201,6 +201,7 @@ MonoBehaviour:
   shotPrefab: {fileID: 2931150803608774117, guid: 40a9325cb955e3b4f8b7438886a17343,
     type: 3}
   shootingRate: 0.25
+  initWithCooldown: 0
   id: 0
 --- !u!114 &3226885866499968210
 MonoBehaviour:
@@ -234,4 +235,5 @@ MonoBehaviour:
   shotPrefab: {fileID: 2831911734793310390, guid: a3d45498d684a904f9663abdcd973fe0,
     type: 3}
   shootingRate: 5
+  initWithCooldown: 1
   id: 1

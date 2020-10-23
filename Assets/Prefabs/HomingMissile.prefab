@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2831911734793310387}
   - component: {fileID: 2831911734793310386}
   - component: {fileID: 2831911734793310391}
+  - component: {fileID: -8268142278145524956}
   m_Layer: 0
   m_Name: HomingMissile
   m_TagString: Projectile
@@ -29,7 +30,7 @@ RectTransform:
   m_GameObject: {fileID: 2831911734793310385}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1929773402586972910, guid: 324028189d9d1ad4086e10ba61598798,
+  m_Sprite: {fileID: 4072166018838110598, guid: 006fe52e20bc9ce4ea0643a7e354d77a,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -107,7 +108,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.44, y: 0.32}
+    oldSize: {x: 1.06, y: 0.68}
     newSize: {x: 0.44, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -150,3 +151,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &-8268142278145524956
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2831911734793310385}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 569fc77c77dfcf6439088028824503ab, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

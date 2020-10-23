@@ -11,6 +11,7 @@ public class ExplodingRocketScript : MonoBehaviour
   private SpriteRenderer spriteRenderer;
   private Transform target;
   private bool moving = true;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -32,9 +33,8 @@ public class ExplodingRocketScript : MonoBehaviour
       rigidbodyComponent.velocity = new Vector2( 5 * 1, 5 * 0);
       FindTarget();
     }
-    if (moving)
+    if (moving && transform && target)
     {
-      Debug.Log("Move to target");
       transform.position = Vector3.MoveTowards(transform.position, target.position, step);
     }
   }
@@ -45,8 +45,9 @@ public class ExplodingRocketScript : MonoBehaviour
     EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
     if (enemy != null)
     {
-      this.moving = false;
-      this.spriteRenderer.sprite = null;
+      moving = false;
+      GetComponent<Animator>().enabled = false;
+      spriteRenderer.enabled = false;
       SpecialEffectsHelper.Instance.Explosion(transform.position, true);
       boxCollider.size = new Vector2(2.5f, 2.5f);
       Destroy(gameObject, 0.5f);

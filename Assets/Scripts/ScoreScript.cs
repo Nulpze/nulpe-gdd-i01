@@ -51,5 +51,9 @@ public class ScoreScript : MonoBehaviour
     {
       enemySpawnerScript.IncreaseSpawnRate();
     }
+    if (score > 100 && enemySpawnerScript.GetSpawnRate() == 3)
+    {
+      enemySpawnerScript.IncreaseSpawnRate();
+    }
   }
 }

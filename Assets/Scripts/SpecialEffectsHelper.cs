@@ -12,6 +12,7 @@ public class SpecialEffectsHelper : MonoBehaviour
 
   public ParticleSystem smokeEffect;
   public ParticleSystem fireEffect;
+  public GameObject explosionPrefab;
 
   void Awake()
   {
@@ -30,8 +31,9 @@ public class SpecialEffectsHelper : MonoBehaviour
   /// <param name="position"></param>
   public void Explosion(Vector3 position, bool big = false)
   {
-    instantiate(smokeEffect, position, big);
-    instantiate(fireEffect, position, big);
+    // instantiate(smokeEffect, position, big);
+    // instantiate(fireEffect, position, big);
+    instantiate(explosionPrefab, position, big);
   }
 
   /// <summary>
@@ -39,14 +41,14 @@ public class SpecialEffectsHelper : MonoBehaviour
   /// </summary>
   /// <param name="prefab"></param>
   /// <returns></returns>
-  private ParticleSystem instantiate(ParticleSystem prefab, Vector3 position, bool big = false)
+  private GameObject instantiate(GameObject prefab, Vector3 position, bool big = false)
   {
 
-    ParticleSystem newParticleSystem = Instantiate(
+    GameObject newParticleSystem = Instantiate(
       prefab,
       position,
       Quaternion.identity
-    ) as ParticleSystem;
+    ) as GameObject;
     var scale = newParticleSystem.transform.localScale;
     if (big)
     {
@@ -60,7 +62,7 @@ public class SpecialEffectsHelper : MonoBehaviour
     // Make sure it will be destroyed
     Destroy(
       newParticleSystem.gameObject,
-      newParticleSystem.startLifetime
+      1.2f
     );
 
     return newParticleSystem;

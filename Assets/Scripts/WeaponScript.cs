@@ -19,6 +19,8 @@ public class WeaponScript : MonoBehaviour
   /// </summary>
   public float shootingRate = 0.25f;
 
+  public bool initWithCooldown = false;
+
   public int id = 0;
 
   //--------------------------------
@@ -29,6 +31,11 @@ public class WeaponScript : MonoBehaviour
 
   void Start()
   {
+    if (initWithCooldown)
+    {
+      shootCooldown = shootingRate;
+      return;
+    }
     shootCooldown = 0f;
   }
 
