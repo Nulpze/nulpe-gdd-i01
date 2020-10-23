@@ -1503,6 +1503,7 @@ GameObject:
   - component: {fileID: 1172275159}
   - component: {fileID: 1172275161}
   - component: {fileID: 1172275162}
+  - component: {fileID: 1172275163}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1573,6 +1574,20 @@ MonoBehaviour:
   maxSpawnTime: 2
   distFromCamera: 10
   doubleSpawnThreshold: 50
+--- !u!114 &1172275163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172275158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a923b8060a48e43932a272ca849596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionSound: {fileID: 8300000, guid: e77db110fff30704da7b50c7b7ff9dfa, type: 3}
+  gameOverSound: {fileID: 8300000, guid: 0c8a34fad2084194eb6a0f504f9a2db4, type: 3}
 --- !u!4 &1175840568 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2603150292008838110, guid: 2b9349f8705080e42aceca130d69bcc8,

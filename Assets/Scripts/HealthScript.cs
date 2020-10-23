@@ -52,6 +52,7 @@ public class HealthScript : MonoBehaviour
   {
     if (!isInvincible)
     {
+      SoundEffectsHelper.Instance.MakeExplosionSound();
       hp -= damageCount;
 
       if (!isEnemy)

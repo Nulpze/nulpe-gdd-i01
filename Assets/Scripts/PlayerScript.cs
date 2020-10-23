@@ -127,6 +127,7 @@ public class PlayerScript : MonoBehaviour
     // Game Over.
     var gameOver = FindObjectOfType<GameOverScript>();
     gameOver.ShowButtons();
+    SoundEffectsHelper.Instance.MakePlayGameOverSound();
   }
 
   private void FireNormalWeapon()
