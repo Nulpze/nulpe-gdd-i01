@@ -8,7 +8,16 @@ public class MenuScript : MonoBehaviour
 {
   public void StartGame()
   {
-    // "Stage1" is the name of the first scene we created.
     SceneManager.LoadScene("Stage1");
+  }
+
+  public void HowTo()
+  {
+    SceneManager.LoadScene("HowTo");
+  }
+
+  public void Menu()
+  {
+    SceneManager.LoadScene("Menu");
   }
 }

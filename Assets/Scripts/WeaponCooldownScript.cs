@@ -13,7 +13,7 @@ public class WeaponCooldownScript : MonoBehaviour
 
   public bool initWithCooldown = false;
 
-  private float shootCooldown;
+  public float shootCooldown;
 
   void Start()
   {

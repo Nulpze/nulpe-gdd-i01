@@ -7,7 +7,7 @@ public class PlayerWeaponsScript : MonoBehaviour
   public GameObject specialWeapon;
   public GameObject homingWeapon;
   public GameObject lightningWeapon;
-  private int homingWeaponCount = 0;
+  public int homingWeaponCount = 0;
 
   void Start()
   {

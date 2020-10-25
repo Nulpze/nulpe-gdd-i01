@@ -24,7 +24,7 @@ public class HealthScript : MonoBehaviour
   public void Awake()
   {
     currentHp = hp;
-    if (!isEnemy)
+    if (healthBarScript)
     {
       healthBarScript.SetHealth(hp);
     }
