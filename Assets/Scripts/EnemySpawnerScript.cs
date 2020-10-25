@@ -1,25 +1,27 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemySpawnerScript : MonoBehaviour
 {
-  public GameObject prefab;
-  public float minSpawnTime = 2f;
-  public float maxSpawnTime = 4f;
+  public GameObject normalEnemy;
+  public GameObject bigEnemy;
+  public ScoreScript scoreScript;
+  public Vector2 normalEnemySpawnBounds;
+  public Vector2 bigEnemySpawnBounds;
   public float distFromCamera = 10.0f;
-  public int doubleSpawnThreshold = 50;
+  public float nextBigEnemy = 20f;
 
-  private float timer = 0.0f;
-  private float nextTime;
+  private float normalEnemyTimer = 0.0f;
+  private float bigEnemyTimer = 0.0f;
+  private float nextNormalEnemy;
   private bool active = true;
-  private int spawnRate = 1;
+  private int spawnRate = 6;
+  private int bigSpawnRate = 1;
+  private float spawnRateTimer = 2f;
 
   void Start()
   {
-    nextTime = Random.Range(minSpawnTime, maxSpawnTime);
-    /*SpawnEnemy(-3f);
-    SpawnEnemy(-3f);
-    SpawnEnemy(-3f);*/
+    nextNormalEnemy = Random.Range(normalEnemySpawnBounds.x, normalEnemySpawnBounds.y);
+    // nextBigEnemy = Random.Range(normalEnemySpawnBounds.x, normalEnemySpawnBounds.y);
   }
 
   // Update is called once per frame
@@ -29,22 +31,32 @@ public class EnemySpawnerScript : MonoBehaviour
     {
       return;
     }
-    timer += Time.deltaTime;
-
-    if (timer > nextTime)
+    normalEnemyTimer += Time.deltaTime;
+    bigEnemyTimer += Time.deltaTime;
+    spawnRateTimer -= Time.deltaTime;
+    if (normalEnemyTimer > nextNormalEnemy)
     {
       for (int i = 0; i < spawnRate; i++)
       {
-        SpawnEnemy();
+        SpawnEnemy(normalEnemy);
       }
-      timer = 0.0f;
-      nextTime = Random.Range(minSpawnTime, maxSpawnTime);
+      normalEnemyTimer = 0.0f;
+      nextNormalEnemy = Random.Range(normalEnemySpawnBounds.x, normalEnemySpawnBounds.y);
     }
-  }
-
-  public void IncreaseSpawnRate()
-  {
-    spawnRate++;
+    if (bigEnemyTimer > nextBigEnemy)
+    {
+      for (int i = 0; i < bigSpawnRate; i++)
+      {
+        SpawnEnemy(bigEnemy);
+      }
+      nextBigEnemy = Random.Range(bigEnemySpawnBounds.x, bigEnemySpawnBounds.y);
+      bigEnemyTimer = 0f;
+    }
+    if (spawnRateTimer < 0)
+    {
+      CheckSpawnRate();
+      spawnRateTimer = 2f;
+    }
   }
 
   public int GetSpawnRate()
@@ -57,15 +69,55 @@ public class EnemySpawnerScript : MonoBehaviour
     this.active = false;
   }
 
-  private void SpawnEnemy(float rndX = 5.0f)
+  private void SpawnEnemy(GameObject prefab, float rndX = 5.0f)
   {
     var enemy = Instantiate(prefab, transform);
     var pos = new Vector3(
       Camera.main.transform.position.x + Camera.main.orthographicSize * 2 + Random.Range(0f, rndX),
-      -50 + Random.Range(-10.0f, 10.0f),
+      Random.Range(-10.0f, 10.0f),
       0
     );
     enemy.transform.position = pos;
     Destroy(enemy, 20f);
+  }
+
+  private void CheckSpawnRate()
+  {
+    if (scoreScript.GetTime() == 30)
+    {
+      IncreaseSpawnRate(2);
+      bigSpawnRate++;
+    }
+    if (scoreScript.GetTime() == 60)
+    {
+      IncreaseSpawnRate(2);
+      bigSpawnRate++;
+    }
+    if (scoreScript.GetTime() == 100)
+    {
+      IncreaseSpawnRate(2);
+      bigSpawnRate++;
+    }
+    if (scoreScript.GetTime() == 150)
+    {
+      IncreaseSpawnRate(2);
+      bigSpawnRate++;
+    }
+    if (scoreScript.GetTime() == 200)
+    {
+      IncreaseSpawnRate(2);
+      bigSpawnRate++;
+    }
+    if (scoreScript.GetTime() == 250)
+    {
+      IncreaseSpawnRate(2);
+      bigSpawnRate++;
+    }
+  }
+
+  private void IncreaseSpawnRate(int amount = 1)
+  {
+    spawnRate += amount;
+    Debug.Log("Increased spawn rate: " + spawnRate);
   }
 }

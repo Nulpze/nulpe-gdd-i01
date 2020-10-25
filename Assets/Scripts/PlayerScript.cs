@@ -16,26 +16,12 @@ public class PlayerScript : MonoBehaviour
   // 2 - Store the movement and the component
   private Vector2 movement;
   private Rigidbody2D rigidbodyComponent;
-  private WeaponScript normalWeapon;
-  private WeaponScript specialWeapon;
 
   private void Awake()
   {
     defaultScale = transform.localScale;
     flipScale = defaultScale;
     flipScale.x *= -1;
-    WeaponScript[] weapons = GetComponents<WeaponScript>();
-    for (int i = 0; i < weapons.Length; i++)
-    {
-      if (weapons[i]?.id == 0)
-      {
-        normalWeapon = weapons[i];
-      }
-      if (weapons[i]?.id == 1)
-      {
-        specialWeapon = weapons[i];
-      }
-    }
   }
 
   // Update is called once per frame
@@ -50,25 +36,6 @@ public class PlayerScript : MonoBehaviour
       speed.x * inputX,
       speed.y * inputY
     );
-
-    if (inputX < 0)
-    {
-      transform.localScale = flipScale;
-    }
-    else
-    {
-      transform.localScale = defaultScale;
-    }
-
-    if (Input.GetButton("Fire1"))
-    {
-      FireNormalWeapon();
-    }
-
-    if (Input.GetButtonDown("Fire2"))
-    {
-      FireSpecialWeapon();
-    }
 
     var dist = (transform.position - Camera.main.transform.position).z;
 
@@ -126,23 +93,10 @@ public class PlayerScript : MonoBehaviour
   {
     // Game Over.
     var gameOver = FindObjectOfType<GameOverScript>();
-    gameOver.ShowButtons();
+    if (gameOver)
+    {
+      gameOver.ShowButtons();
+    }
     SoundEffectsHelper.Instance.MakePlayGameOverSound();
-  }
-
-  private void FireNormalWeapon()
-  {
-    if (normalWeapon)
-    {
-      normalWeapon.Attack(false);
-    }
-  }
-
-  private void FireSpecialWeapon()
-  {
-    if (specialWeapon)
-    {
-      specialWeapon.Attack(false);
-    }
   }
 }

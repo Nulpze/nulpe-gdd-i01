@@ -8,7 +8,6 @@ public class HealthBarScript : MonoBehaviour
 {
 
   public Image healthPrefab;
-  private Canvas canvas;
 
   private List<Image> hearts;
   private float destroyAfter = 0f;
@@ -29,15 +28,11 @@ public class HealthBarScript : MonoBehaviour
   public void SetHealth(int health)
   {
     hearts = new List<Image>();
-    canvas = GetComponent<Canvas>();
     for (int i = 0; i < health; i++)
     {
-      var heart = Instantiate(healthPrefab, canvas.transform) as Image;
-      heart.rectTransform.position = new Vector3(
-        heart.rectTransform.position.x - heart.sprite.rect.width * i,
-        heart.rectTransform.position.y,
-        heart.rectTransform.position.z
-      );
+      Image heart = Instantiate(healthPrefab, transform);
+      Debug.Log($"Heart width: {heart.sprite.rect.width} height: {heart.sprite.rect.height} x: {heart.transform.position.x}");
+      heart.rectTransform.anchoredPosition = new Vector3(-heart.sprite.rect.width * i, 0, 0);
       hearts.Add(heart);
     }
   }

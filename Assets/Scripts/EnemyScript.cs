@@ -5,12 +5,17 @@
 /// </summary>
 public class EnemyScript : MonoBehaviour
 {
+  public bool randomWeaponActivation = true;
+  public bool canBeTargeted = true;
+
   private bool hasSpawn;
   private MoveScript moveScript;
   private WeaponScript[] weapons;
   private Collider2D coliderComponent;
   private SpriteRenderer rendererComponent;
   private HealthScript healthScript;
+  private float randomShotCooldown = -1;
+  private bool isTargetedByRocket = false;
 
   void Awake()
   {
@@ -45,6 +50,10 @@ public class EnemyScript : MonoBehaviour
 
   void Update()
   {
+    if (randomShotCooldown > 0)
+    {
+      randomShotCooldown -= Time.deltaTime;
+    }
     // 2 - Check if the enemy has spawned.
     if (hasSpawn == false)
     {
@@ -55,13 +64,17 @@ public class EnemyScript : MonoBehaviour
     }
     else
     {
-      // Auto-fire
-      foreach (WeaponScript weapon in weapons)
+      if (randomShotCooldown < 0)
       {
-        if (weapon != null && weapon.enabled && weapon.CanAttack)
+        // Auto-fire
+        foreach (WeaponScript weapon in weapons)
         {
-          weapon.Attack(true);
+          if (weapon != null && weapon.enabled)
+          {
+            weapon.Fire();
+          }
         }
+        randomShotCooldown = Random.Range(0.01f, 1f);
       }
 
       // 4 - Out of the camera ? Destroy the game object.
@@ -75,13 +88,31 @@ public class EnemyScript : MonoBehaviour
 
   void OnCollisionEnter2D(Collision2D collision)
   {
+    HomingWeaponScript test = collision.gameObject.GetComponent<HomingWeaponScript>();
+    if (test != null)
+    {
+      healthScript.Damage(100);
+      test.FindTarget();
+    }
     // Collision with enemy
     ExplodingRocketScript explosionScript = collision.gameObject.GetComponent<ExplodingRocketScript>();
     if (explosionScript != null)
     {
-      Debug.Log("EXPLODED!!");
       healthScript.Damage(100);
     }
+  }
+
+  public void Target()
+  {
+    if (canBeTargeted)
+    {
+      isTargetedByRocket = true;
+    }
+  }
+
+  public bool IsTargeted()
+  {
+    return isTargetedByRocket;
   }
 
   // 3 - Activate itself.
@@ -97,7 +128,14 @@ public class EnemyScript : MonoBehaviour
     // -- Shooting
     foreach (WeaponScript weapon in weapons)
     {
-      weapon.enabled = true;
+      if (randomWeaponActivation)
+      {
+        weapon.enabled = Random.Range(0, 100) > 90;
+      }
+      else
+      {
+        weapon.enabled = true;
+      }
     }
   }
 }

@@ -1,41 +1,44 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ExplodingRocketScript : MonoBehaviour
 {
-  public float speed = 200.0f;
+  public Vector2 boxColliderEnhance = new Vector2(5.0f, 5.0f);
+  public float destroyAfter = 0.5f;
   private BoxCollider2D boxCollider;
   private SpriteRenderer spriteRenderer;
-  private Transform target;
-  private bool moving = true;
+  private bool exploded = false;
+  private bool blinking = false;
+  private BlinkingScript blinkingScript;
 
   // Start is called before the first frame update
   void Start()
   {
     boxCollider = GetComponent<BoxCollider2D>();
     spriteRenderer = GetComponent<SpriteRenderer>();
-    GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-    Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playerObject.GetComponent<Collider2D>());
-    Destroy(gameObject, 5f);
+    blinkingScript = GetComponent<BlinkingScript>();
   }
 
   // Update is called once per frame
   void Update()
   {
-    // Move our position a step closer to the target.
-    float step = speed * Time.deltaTime; // calculate distance to move
-    if (!target)
+    var dist = (transform.position - Camera.main.transform.position).z;
+    var rightBorder = Camera.main.ViewportToWorldPoint(
+      new Vector3(1, 0, dist)
+    ).x;
+    var critical = Camera.main.ViewportToWorldPoint(
+      new Vector3(0.9f, 0, dist)
+    ).x;
+    var center = Camera.main.ViewportToWorldPoint(
+      new Vector3(0.5f, 0, dist)
+    ).x;
+    if (transform.position.x > center && !blinking)
     {
-      Rigidbody2D rigidbodyComponent = GetComponent<Rigidbody2D>();
-      rigidbodyComponent.velocity = new Vector2( 5 * 1, 5 * 0);
-      FindTarget();
+      blinking = true;
+      blinkingScript.Blink();
     }
-    if (moving && transform && target)
+    if (transform.position.x > critical && !exploded)
     {
-      transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+      Explode();
     }
   }
 
@@ -45,38 +48,17 @@ public class ExplodingRocketScript : MonoBehaviour
     EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
     if (enemy != null)
     {
-      moving = false;
-      GetComponent<Animator>().enabled = false;
-      spriteRenderer.enabled = false;
-      SpecialEffectsHelper.Instance.Explosion(transform.position, true);
-      boxCollider.size = new Vector2(2.5f, 2.5f);
-      Destroy(gameObject, 0.5f);
+      Explode();
     }
   }
 
-  private void FindTarget()
+  private void Explode()
   {
-    GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
-    IEnumerable<Transform> transforms = targets.Select((target) => target.transform);
-    target = GetClosestEnemy(transforms.ToArray());
-  }
-
-  Transform GetClosestEnemy(Transform[] enemies)
-  {
-    Transform bestTarget = null;
-    float closestDistanceSqr = Mathf.Infinity;
-    Vector3 currentPosition = transform.position;
-    foreach (Transform potentialTarget in enemies)
-    {
-      Vector3 directionToTarget = potentialTarget.position - currentPosition;
-      float dSqrToTarget = directionToTarget.sqrMagnitude;
-      if (dSqrToTarget < closestDistanceSqr)
-      {
-        closestDistanceSqr = dSqrToTarget;
-        bestTarget = potentialTarget;
-      }
-    }
-
-    return bestTarget;
+    exploded = true;
+    GetComponent<Animator>().enabled = false;
+    spriteRenderer.enabled = false;
+    SpecialEffectsHelper.Instance.Explosion(transform.position, boxColliderEnhance.x * 2);
+    boxCollider.size = new Vector2(boxColliderEnhance.x, boxColliderEnhance.y);
+    Destroy(gameObject, destroyAfter);
   }
 }

@@ -37,6 +37,10 @@ public class GameOverScript : MonoBehaviour
     }
     scoreScript.Stop();
     enemySpawnerScript.Stop();
+    DespawnGameObjects("Projectile");
+    DespawnGameObjects("Enemy");
+    DespawnGameObjects("PowerUp");
+
   }
 
   public void ExitToMenu()
@@ -49,5 +53,15 @@ public class GameOverScript : MonoBehaviour
   {
     // Reload the level
     SceneManager.LoadScene("Stage1");
+  }
+
+  private void DespawnGameObjects(string tag)
+  {
+    GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+    foreach (var obj in objects)
+    {
+      Destroy(obj);
+    }
+
   }
 }

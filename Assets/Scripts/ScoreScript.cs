@@ -4,10 +4,12 @@ public class ScoreScript : MonoBehaviour
 {
 
   [SerializeField] GameObject uiText = null;
+  [SerializeField] GameObject uiTime = null;
   public EnemySpawnerScript enemySpawnerScript;
 
   private bool active = true;
   private float score = 0;
+  private float time = 0;
   private float timer = 0.0f;
 
   void Start()
@@ -21,8 +23,9 @@ public class ScoreScript : MonoBehaviour
     {
       timer += Time.deltaTime;
       float minutes = timer / 60;
-      score = Mathf.Floor(timer % 60) + Mathf.Floor(minutes) * 60;
+      time = Mathf.Floor(timer % 60) + Mathf.Floor(minutes) * 60;
       SetScore();
+      uiTime.GetComponent<UnityEngine.UI.Text>().text = $"{time}";
     }
   }
 
@@ -39,21 +42,20 @@ public class ScoreScript : MonoBehaviour
   {
     return score;
   }
+  public float GetTime()
+  {
+    return time;
+  }
+
+
+  public void Score(int points = 1)
+  {
+    score += points;
+    SetScore();
+  }
 
   private void SetScore()
   {
-    uiText.GetComponent<UnityEngine.UI.Text>().text = $"Score: {this.score:0}";
-    if (score > 20 && enemySpawnerScript.GetSpawnRate() == 1)
-    {
-      enemySpawnerScript.IncreaseSpawnRate();
-    }
-    if (score > 50 && enemySpawnerScript.GetSpawnRate() == 2)
-    {
-      enemySpawnerScript.IncreaseSpawnRate();
-    }
-    if (score > 100 && enemySpawnerScript.GetSpawnRate() == 3)
-    {
-      enemySpawnerScript.IncreaseSpawnRate();
-    }
+    uiText.GetComponent<UnityEngine.UI.Text>().text = $"Score: {GetScore()}";
   }
 }

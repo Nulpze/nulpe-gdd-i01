@@ -29,11 +29,11 @@ public class SpecialEffectsHelper : MonoBehaviour
   /// Create an explosion at the given location
   /// </summary>
   /// <param name="position"></param>
-  public void Explosion(Vector3 position, bool big = false)
+  public void Explosion(Vector3 position, float scale = 1.0f)
   {
     // instantiate(smokeEffect, position, big);
     // instantiate(fireEffect, position, big);
-    instantiate(explosionPrefab, position, big);
+    instantiate(explosionPrefab, position, scale);
   }
 
   /// <summary>
@@ -41,7 +41,7 @@ public class SpecialEffectsHelper : MonoBehaviour
   /// </summary>
   /// <param name="prefab"></param>
   /// <returns></returns>
-  private GameObject instantiate(GameObject prefab, Vector3 position, bool big = false)
+  private GameObject instantiate(GameObject prefab, Vector3 position, float scale = 1.0f)
   {
 
     GameObject newParticleSystem = Instantiate(
@@ -49,15 +49,11 @@ public class SpecialEffectsHelper : MonoBehaviour
       position,
       Quaternion.identity
     ) as GameObject;
-    var scale = newParticleSystem.transform.localScale;
-    if (big)
-    {
-      newParticleSystem.transform.localScale = new Vector3(
-        scale.x * 4,
-        scale.y * 4,
-        1
-      );
-    }
+    newParticleSystem.transform.localScale = new Vector3(
+      newParticleSystem.transform.localScale.x * scale,
+      newParticleSystem.transform.localScale.y * scale,
+      1
+    );
 
     // Make sure it will be destroyed
     Destroy(

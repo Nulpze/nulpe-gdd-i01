@@ -5,98 +5,35 @@
 /// </summary>
 public class WeaponScript : MonoBehaviour
 {
-  //--------------------------------
-  // 1 - Designer variables
-  //--------------------------------
 
-  /// <summary>
-  /// Projectile prefab for shooting
-  /// </summary>
-  public Transform shotPrefab;
-
-  /// <summary>
-  /// Cooldown in seconds between two shots
-  /// </summary>
-  public float shootingRate = 0.25f;
-
-  public bool initWithCooldown = false;
-
-  public int id = 0;
-
-  //--------------------------------
-  // 2 - Cooldown
-  //--------------------------------
-
-  private float shootCooldown;
-
-  void Start()
-  {
-    if (initWithCooldown)
-    {
-      shootCooldown = shootingRate;
-      return;
-    }
-    shootCooldown = 0f;
-  }
+  public Transform weapon;
+  public WeaponCooldownScript weaponCooldown;
+  public float destroyWeaponAfter = 10f;
 
   void Update()
   {
-    if (shootCooldown > 0)
-    {
-      shootCooldown -= Time.deltaTime;
-    }
   }
 
-  //--------------------------------
-  // 3 - Shooting from another script
-  //--------------------------------
-
-  /// <summary>
-  /// Create a new projectile if possible
-  /// </summary>
-  public void Attack(bool isEnemy)
+  public void Fire(int amount = 1)
   {
-    if (CanAttack)
+    if (!weaponCooldown.CanAttack)
     {
-      shootCooldown = shootingRate;
+      return;
+    }
+    for (int i = 0; i < amount; i++)
+    {
+      var weaponTransform = Instantiate(weapon) as Transform;
 
-      // Create a new shot
-      var shotTransform = Instantiate(shotPrefab) as Transform;
-
-      // Assign position
-      shotTransform.position = transform.position;
-
-      ShotScript shot = shotTransform.gameObject.GetComponent<ShotScript>();
-      ExplodingRocketScript rocket = shotTransform.gameObject.GetComponent<ExplodingRocketScript>();
-
-      if (rocket != null)
-      {
-        return;
-      }
-
-
-      if (shot != null)
-      {
-        shot.isEnemyShot = isEnemy;
-      }
-
+      // Assign current position
+      weaponTransform.position = transform.position;
       // Make the weapon shot always towards it
-      MoveScript move = shotTransform.gameObject.GetComponent<MoveScript>();
+      MoveScript move = weaponTransform.gameObject.GetComponent<MoveScript>();
       if (move != null)
       {
         move.direction = this.transform.right; // towards in 2D space is the right of the sprite
       }
-    }
-  }
-
-  /// <summary>
-  /// Is the weapon ready to create a new projectile?
-  /// </summary>
-  public bool CanAttack
-  {
-    get
-    {
-      return shootCooldown <= 0f;
+      weaponCooldown.CoolDown();
+      Destroy(weaponTransform, destroyWeaponAfter);
     }
   }
 }

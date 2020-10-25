@@ -12,8 +12,11 @@ public class SoundEffectsHelper : MonoBehaviour
   /// </summary>
   public static SoundEffectsHelper Instance;
 
-  public AudioClip explosionSound;
-  public AudioClip gameOverSound;
+  public AudioSource explosionSound;
+  public AudioSource gameOverSound;
+  public AudioSource getPowerUpSound;
+  public AudioSource damageSound;
+  public AudioSource gameMusic;
 
   void Awake()
   {
@@ -27,21 +30,22 @@ public class SoundEffectsHelper : MonoBehaviour
 
   public void MakeExplosionSound()
   {
-    MakeSound(explosionSound);
+    explosionSound.Play();
   }
 
   public void MakePlayGameOverSound()
   {
-    MakeSound(gameOverSound);
+    gameMusic.Stop();
+    gameOverSound.Play();
   }
 
-  /// <summary>
-  /// Play a given sound
-  /// </summary>
-  /// <param name="originalClip"></param>
-  private void MakeSound(AudioClip originalClip)
+  public void PlayGetPowerUpSound()
   {
-    // As it is not 3D audio clip, position doesn't matter.
-    AudioSource.PlayClipAtPoint(originalClip, transform.position);
+    getPowerUpSound.Play();
+  }
+
+  public void PlayDamageSound()
+  {
+    damageSound.Play();
   }
 }

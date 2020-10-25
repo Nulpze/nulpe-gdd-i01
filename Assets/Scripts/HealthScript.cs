@@ -16,16 +16,16 @@ public class HealthScript : MonoBehaviour
   public bool isEnemy = true;
   public bool isInvincible = false;
 
-  public Canvas healthBar;
-  private HealthBarScript healthBarScript;
+  public HealthBarScript healthBarScript;
   private BlinkingScript blinkingScript;
-  private float invincibleDurationAfterDamage = 0f;
+  private float invincibleFor = 0f;
+  private int currentHp = 0;
 
   public void Awake()
   {
+    currentHp = hp;
     if (!isEnemy)
     {
-      healthBarScript = healthBar.GetComponent<HealthBarScript>();
       healthBarScript.SetHealth(hp);
     }
     blinkingScript = GetComponent<BlinkingScript>();
@@ -33,12 +33,12 @@ public class HealthScript : MonoBehaviour
 
   public void Update()
   {
-    if (invincibleDurationAfterDamage > 0)
+    if (invincibleFor > 0)
     {
-      invincibleDurationAfterDamage -= Time.deltaTime;
+      invincibleFor -= Time.deltaTime;
       isInvincible = true;
     }
-    if (invincibleDurationAfterDamage < 0 && isInvincible)
+    if (invincibleFor < 0 && isInvincible)
     {
       isInvincible = false;
     }
@@ -52,23 +52,32 @@ public class HealthScript : MonoBehaviour
   {
     if (!isInvincible)
     {
-      SoundEffectsHelper.Instance.MakeExplosionSound();
-      hp -= damageCount;
+      currentHp -= damageCount;
 
-      if (!isEnemy)
+      if (isEnemy)
       {
+        SoundEffectsHelper.Instance.MakeExplosionSound();
+      }
+      else
+      {
+        if (currentHp > 1)
+        {
+          SoundEffectsHelper.Instance.PlayDamageSound();
+        }
         healthBarScript.TakeDamage();
-        invincibleDurationAfterDamage = 1f;
+        invincibleFor = 1f;
+        GetComponent<PlayerWeaponsScript>().RemovePowerUp();
       }
 
       if (blinkingScript)
       {
-        blinkingScript.Blink(invincibleDurationAfterDamage);
+        blinkingScript.Blink(invincibleFor);
       }
     }
 
-    if (hp <= 0)
+    if (currentHp <= 0)
     {
+      GameObject.FindGameObjectWithTag("GameScripts").GetComponent<ScoreScript>().Score(hp);
       SpecialEffectsHelper.Instance.Explosion(transform.position);
       // Dead!
       Destroy(gameObject);
