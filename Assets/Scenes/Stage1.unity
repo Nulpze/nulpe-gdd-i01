@@ -2331,8 +2331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 3746501157170882481, guid: 56656fc47f479714ea6343bae1226c68, type: 3}
-  minSpawnTime: 15
-  maxSpawnTime: 30
+  minSpawnTime: 40
+  maxSpawnTime: 50
   initCooldown: 0
 --- !u!4 &1175840568 stripped
 Transform:

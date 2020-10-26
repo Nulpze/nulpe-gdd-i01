@@ -2,7 +2,7 @@
 
 public class PlayerWeaponsScript : MonoBehaviour
 {
-
+  public int maxHomingWeapons = 3;
   public GameObject normalWeapon;
   public GameObject specialWeapon;
   public GameObject homingWeapon;
@@ -28,6 +28,10 @@ public class PlayerWeaponsScript : MonoBehaviour
   }
   public void AddHomingWeapon()
   {
+    if (homingWeaponCount == maxHomingWeapons)
+    {
+      return;
+    }
     homingWeaponCount++;
   }
 

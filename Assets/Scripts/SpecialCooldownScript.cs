@@ -32,6 +32,13 @@ public class SpecialCooldownScript : MonoBehaviour
       specialWeaponCDText.text = "Right Click";
       specialWeaponCDImage.color = new Color(255, 255, 255, 1);
     }
-    homingWeaponCDText.text = playerWeapons.homingWeaponCount.ToString();
+    if (playerWeapons.homingWeaponCount == playerWeapons.maxHomingWeapons)
+    {
+      homingWeaponCDText.text = "max";
+    }
+    else
+    {
+      homingWeaponCDText.text = playerWeapons.homingWeaponCount.ToString();
+    }
   }
 }

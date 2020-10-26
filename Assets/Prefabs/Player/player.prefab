@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingRate: 2
   initWithCooldown: 0
+  shootCooldown: 0
 --- !u!114 &3813522456625874549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingRate: 0.25
   initWithCooldown: 0
+  shootCooldown: 0
 --- !u!114 &2921498268272543716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,10 +343,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c180d5228a5b3e43aa078fa5f085dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHomingWeapons: 3
   normalWeapon: {fileID: 5874674171143410848}
   specialWeapon: {fileID: 8448048351128399118}
   homingWeapon: {fileID: 3027815674277853331}
   lightningWeapon: {fileID: 7422940592874273651}
+  homingWeaponCount: 0
 --- !u!114 &-7616338223358030466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingRate: 1
   initWithCooldown: 0
+  shootCooldown: 0
 --- !u!114 &6885935223012187892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,8 +469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d5a0f6c04e68cf47a87c1c03b2a9fab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingRate: 2
+  shootingRate: 10
   initWithCooldown: 1
+  shootCooldown: 0
 --- !u!114 &7213292358787862518
 MonoBehaviour:
   m_ObjectHideFlags: 0

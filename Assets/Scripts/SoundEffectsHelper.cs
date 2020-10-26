@@ -30,22 +30,38 @@ public class SoundEffectsHelper : MonoBehaviour
 
   public void MakeExplosionSound()
   {
-    explosionSound.Play();
+    PlaySound(explosionSound);
   }
 
   public void MakePlayGameOverSound()
   {
-    gameMusic.Stop();
-    gameOverSound.Play();
+    StopSound(gameMusic);
+    PlaySound(gameOverSound);
   }
 
   public void PlayGetPowerUpSound()
   {
-    getPowerUpSound.Play();
+    PlaySound(getPowerUpSound);
   }
 
   public void PlayDamageSound()
   {
-    damageSound.Play();
+    PlaySound(damageSound);
+  }
+
+  private void PlaySound(AudioSource source)
+  {
+    if (source)
+    {
+      source.Play();
+    }
+  }
+
+  private void StopSound(AudioSource source)
+  {
+    if (source)
+    {
+      source.Stop();
+    }
   }
 }
